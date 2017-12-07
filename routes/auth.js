@@ -31,7 +31,7 @@ router.post('/signup', function(req, res, next) {
   if (req.user) {
     return response.forbidden();
   }
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
   if (!username) {
     return response.unprocessable(
@@ -46,9 +46,6 @@ router.post('/signup', function(req, res, next) {
       res,
       'Missing mandatory field "Password".'
     );
-  }
-  if (!email) {
-    return response.unprocessable(req, res, 'Missing mandatory field "Email".');
   }
 
   User.findOne(
@@ -69,7 +66,6 @@ router.post('/signup', function(req, res, next) {
 
       const newUser = User({
         username,
-        email,
         password: hashPass
       });
 

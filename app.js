@@ -5,17 +5,18 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const response = require('./helpers/response');
-const configurePassport = require('.helpers/passport');
+const configurePassport = require('./helpers/passport');
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
+const booking = require('./routes/booking');
 
 const mongoose = require('mongoose');
 
 const app = express();
 
 // create app connect to db
-mongoose.connect('mongodb://localhost/booking', {
+mongoose.connect('mongodb://localhost/booking-api', {
   useMongoClient: true
 });
 
@@ -31,11 +32,11 @@ app.use(cookieParser());
 //routes
 app.use('/index', index);
 app.use('/auth', auth);
+app.use('/booking', booking);
 
 // 404 and error handles
 app.use((req, res) => {
-  res.status(404);
-  res.json({ error: 'Page Not Found' });
+  response.notFound(req, res);
 });
 
 app.use((err, req, res, next) => {
@@ -43,9 +44,8 @@ app.use((err, req, res, next) => {
   console.log('ERROR', req.method, req.path, err);
 
   // only send response if the error ocurred b4 sending the response
-  if (!res.headerSent) {
-    res.status(500);
-    res.json({ error: 'unexpected' });
+  if (!res.headersSent) {
+    response.unexpectedError(req, res, err);
   }
 });
 
