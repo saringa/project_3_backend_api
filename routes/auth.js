@@ -4,13 +4,13 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 const response = require('../helpers/response');
-const User = require('../models/user').User;
+const User = require('../models/user');
 
 /* GET home page. */
 router.post('/login', function(req, res, next) {
-  if (req.user) {
-    return response.forbidden();
-  }
+  // if (req.user) {
+  //   return response.forbidden();
+  // }
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err);
@@ -28,9 +28,9 @@ router.post('/login', function(req, res, next) {
 });
 
 router.post('/signup', function(req, res, next) {
-  if (req.user) {
-    return response.forbidden();
-  }
+  // if (req.user) {
+  //   return response.forbidden();
+  // }
   const { username, password } = req.body;
 
   if (!username) {
@@ -64,7 +64,7 @@ router.post('/signup', function(req, res, next) {
       const salt = bcrypt.genSaltSync(10);
       const hashPass = bcrypt.hashSync(password, salt);
 
-      const newUser = User({
+      const newUser = new User({
         username,
         password: hashPass
       });
@@ -77,7 +77,7 @@ router.post('/signup', function(req, res, next) {
           if (err) {
             return next(err);
           }
-          return response.data(req, res, newUser.asData());
+          return response.data(req, res, newUser);
         });
       });
     }

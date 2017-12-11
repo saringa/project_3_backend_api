@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const response = require('./helpers/response');
 const configurePassport = require('./helpers/passport');
 
+const cors = require('cors');
+
 const index = require('./routes/index');
 const auth = require('./routes/auth');
 const booking = require('./routes/booking');
@@ -28,6 +30,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:4200']
+  })
+);
 
 //routes
 app.use('/index', index);
