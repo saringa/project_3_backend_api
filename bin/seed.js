@@ -7,77 +7,76 @@ mongoose.connect('mongodb://localhost/booking-api', {
 const boats = [
   {
     boat: {
-      name: 'Menorca',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #1',
+      captain: 'Capt. Allen',
+      location: 'Nueva Armenia',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Mallorca',
-      captain: 'Victor',
-      location: 'Sambo Creek'
+      name: 'Boat #2',
+      captain: 'Capt. Tejada',
+      location: 'Corozal',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Ibiza',
-      captain: 'Yitp',
-      location: 'Rio Esteban'
+      name: 'Boat #3',
+      captain: 'Capt. Wüity',
+      location: 'Nueva Armenia'
     }
   },
   {
     boat: {
-      name: 'Formentera',
-      captain: 'Allen',
-      location: 'Rio Esteban'
+      name: 'Boat #4',
+      captain: 'Capt. Flores',
+      location: 'Nueva Armenia',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Roatan',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #5',
+      captain: 'Capt. Cordova',
+      location: 'Sambo Creek',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Utila',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #6',
+      captain: 'Capt. Yito',
+      location: 'Nueva Armenia',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Guanaja',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #7',
+      captain: 'Capt. Moreira',
+      location: 'Rio Esteban',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Cisnes',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #8',
+      captain: 'Capt. Arzú',
+      location: 'Nueva Armenia',
+      pax: 12
     }
   },
   {
     boat: {
-      name: 'Belize',
-      captain: 'Allen',
-      location: 'Sambo Creek'
-    }
-  },
-  {
-    boat: {
-      name: 'Amapola',
-      captain: 'Allen',
-      location: 'Sambo Creek'
+      name: 'Boat #9',
+      captain: 'Capt. Garcia',
+      location: 'Rio Esteban',
+      pax: 12
     }
   }
 ];
-
-let bookings = [];
 
 Booking.create(boats, (err, data) => {
   if (err) {
