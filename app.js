@@ -8,6 +8,7 @@ const response = require('./helpers/response');
 const configurePassport = require('./helpers/passport');
 
 const cors = require('cors');
+const dotenv = require('dotenv').config();
 
 const index = require('./routes/index');
 const auth = require('./routes/auth');
@@ -18,9 +19,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // create app connect to db
-mongoose.connect('mongodb://localhost/booking-api', {
-  useMongoClient: true
-});
+mongoose.connect(process.env.MONGODB_URI);
 
 const passport = configurePassport();
 app.use(passport.initialize());
@@ -34,7 +33,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ['http://localhost:4200']
+    origin: [process.env.CLIENT_URL]
   })
 );
 
