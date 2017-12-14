@@ -3,7 +3,8 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const response = require('./helpers/response');
 const configurePassport = require('./helpers/passport');
 
@@ -19,7 +20,23 @@ const mongoose = require('mongoose');
 const app = express();
 
 // create app connect to db
+mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI);
+
+app.use(
+  session({
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 24 * 60 * 60 // 1 day
+    }),
+    secret: 'todo-app',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000
+    }
+  })
+);
 
 const passport = configurePassport();
 app.use(passport.initialize());

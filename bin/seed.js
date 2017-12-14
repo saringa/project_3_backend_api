@@ -4,84 +4,80 @@ mongoose.connect('mongodb://localhost/booking-api', {
   useMongoClient: true
 });
 
-const boats = [
+const NUM_DAYS = 150;
+
+let boats = [
   {
-    boat: {
-      name: 'Boat #1',
-      captain: 'Capt. Allen',
-      location: 'Nueva Armenia',
-      pax: 12
-    }
+    name: 'Boat #1',
+    captain: 'Capt. Al',
+    location: 'N.Armenia'
   },
   {
-    boat: {
-      name: 'Boat #2',
-      captain: 'Capt. Tejada',
-      location: 'Corozal',
-      pax: 12
-    }
+    name: 'Boat #2',
+    captain: 'Capt. Teja',
+    location: 'Corozal'
   },
   {
-    boat: {
-      name: 'Boat #3',
-      captain: 'Capt. Wüity',
-      location: 'Nueva Armenia'
-    }
+    name: 'Boat #3',
+    captain: 'Capt. Wüity',
+    location: 'N.Armenia'
   },
   {
-    boat: {
-      name: 'Boat #4',
-      captain: 'Capt. Flores',
-      location: 'Nueva Armenia',
-      pax: 12
-    }
+    name: 'Boat #4',
+    captain: 'Capt. Flo',
+    location: 'N.Armenia'
   },
   {
-    boat: {
-      name: 'Boat #5',
-      captain: 'Capt. Cordova',
-      location: 'Sambo Creek',
-      pax: 12
-    }
+    name: 'Boat #5',
+    captain: 'Capt. Cor',
+    location: 'SamboCreek'
   },
   {
-    boat: {
-      name: 'Boat #6',
-      captain: 'Capt. Yito',
-      location: 'Nueva Armenia',
-      pax: 12
-    }
+    name: 'Boat #6',
+    captain: 'Capt. Yito',
+    location: 'N.Armenia'
   },
   {
-    boat: {
-      name: 'Boat #7',
-      captain: 'Capt. Moreira',
-      location: 'Rio Esteban',
-      pax: 12
-    }
+    name: 'Boat #7',
+    captain: 'Capt. More',
+    location: 'R.Esteban'
   },
   {
-    boat: {
-      name: 'Boat #8',
-      captain: 'Capt. Arzú',
-      location: 'Nueva Armenia',
-      pax: 12
-    }
+    name: 'Boat #8',
+    captain: 'Capt. Arzú',
+    location: 'N.Armenia'
   },
   {
-    boat: {
-      name: 'Boat #9',
-      captain: 'Capt. Garcia',
-      location: 'Rio Esteban',
-      pax: 12
-    }
+    name: 'Boat #9',
+    captain: 'Capt. Gar',
+    location: 'R.Esteban'
   }
 ];
 
-Booking.create(boats, (err, data) => {
+function generateBookings() {
+  let bookings = [];
+  for (let i = 0; i < NUM_DAYS; i++) {
+    const newDate = new Date();
+    newDate.setDate(newDate.getDate() + i);
+    for (let j = 0; j < boats.length; j++) {
+      const booking = {
+        boat: boats[j],
+        date: newDate
+      };
+      bookings.push(booking);
+    }
+  }
+  return bookings;
+}
+
+const bookings = generateBookings();
+console.log(bookings);
+
+console.log('beforeCreate--------');
+Booking.create(bookings, (err, data) => {
   if (err) {
     throw err;
   }
-  console.log('Success', boats);
+  console.log('Success', bookings);
   mongoose.connection.close();
 });

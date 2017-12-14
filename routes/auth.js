@@ -8,9 +8,9 @@ const User = require('../models/user');
 
 /* GET home page. */
 router.post('/login', function(req, res, next) {
-  // if (req.user) {
-  //   return response.forbidden();
-  // }
+  if (req.user) {
+    return response.forbidden(req, res);
+  }
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       return next(err);
@@ -91,7 +91,7 @@ router.post('/logout', function(req, res, next) {
 
 router.get('/me', function(req, res, next) {
   if (req.user) {
-    return response.data(req, res, req.user.asData());
+    return response.data(req, res, req.user);
   }
   return response.notFound(req, res);
 });

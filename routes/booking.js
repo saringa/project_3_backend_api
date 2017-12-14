@@ -22,12 +22,14 @@ router.get('/available', function(req, res, next) {
 });
 // GET BOOKINGS BY PENDING STATUS
 router.get('/pending', function(req, res, next) {
-  Booking.find({ status: 'pending' }, (err, data) => {
-    if (err) {
-      return next(err);
-    }
-    res.json(data);
-  });
+  Booking.find({ status: 'pending' })
+    .populate('user')
+    .exec((err, data) => {
+      if (err) {
+        return next(err);
+      }
+      res.json(data);
+    });
 });
 // GET BOOKINGS BY CONFIRMED
 router.get('/confirmed', function(req, res, next) {
@@ -40,7 +42,7 @@ router.get('/confirmed', function(req, res, next) {
 });
 
 // GET BOOKING BY NOT AVAILABLE
-router.get('/not-available', function(req, res, next) {
+router.get('/rejected', function(req, res, next) {
   Booking.find({ status: 'not-available' }, (err, data) => {
     if (err) {
       return next(err);
@@ -94,8 +96,9 @@ router.put('/:id/request', (req, res, next) => {
       return next(err);
     }
 
+    console.log(req.user);
     data.status = 'pending';
-
+    data.user = req.user._id;
     data.save((err, dataSaved) => {
       if (err) {
         throw err;
@@ -103,6 +106,16 @@ router.put('/:id/request', (req, res, next) => {
       console.log('Success', dataSaved);
       res.json(dataSaved);
     });
+  });
+});
+
+//GET ONE BOOKING BY USER ID
+router.get('/user', function(req, res, next) {
+  Booking.find({ user: req.user._id }, (err, data) => {
+    if (err) {
+      return next(err);
+    }
+    res.json(data);
   });
 });
 
